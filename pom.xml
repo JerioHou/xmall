@@ -6,7 +6,7 @@
 	<groupId>cn.jerio</groupId>
 	<artifactId>xmall</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>xmall</name>
 	<description>xmall</description>
@@ -17,6 +17,14 @@
 		<version>2.0.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<modules>
+		<module>xmall-pojo</module>
+		<module>xmall-common</module>
+		<module>xmall-sellergoods-api</module>
+		<module>xmall-sellergoods-service</module>
+		<module>xmall-manager-web</module>
+		<module>xmall-mapper</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

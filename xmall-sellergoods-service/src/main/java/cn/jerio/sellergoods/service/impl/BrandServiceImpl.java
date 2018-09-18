@@ -19,7 +19,8 @@ import java.util.List;
  * Created by Jerio on 2018/09/17
  */
 
-@Service(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+@Service(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION ,interfaceClass = BrandService.class)
+@org.springframework.stereotype.Service
 public class BrandServiceImpl implements BrandService {
 
     @Autowired
@@ -53,6 +54,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+//    @Transactional
     public void delete(Long[] ids) {
         for(Long id:ids){
             brandMapper.deleteByPrimaryKey(id);

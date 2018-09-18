@@ -39,6 +39,11 @@
 		<!-- 本地依赖 -->
 		<dependency>
 			<groupId>cn.jerio</groupId>
+			<artifactId>xmall-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.jerio</groupId>
 			<artifactId>xmall-pojo</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

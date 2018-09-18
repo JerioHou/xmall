@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/brand")
 public class BrandController {
 
-    @Reference
+    @Reference(version = "1.0.0")
     private BrandService brandService;
 
     @RequestMapping("/findAll")

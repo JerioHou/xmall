@@ -3,14 +3,13 @@ package cn.jerio.mapper;
 import cn.jerio.pojo.TbBrand;
 import cn.jerio.pojo.TbBrandExample;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
+
 
 import java.util.List;
 
 /**
  * Created by Jerio on 2018/9/17
  */
-@Component
 public interface TbBrandMapper {
 
     int countByExample(TbBrandExample example);

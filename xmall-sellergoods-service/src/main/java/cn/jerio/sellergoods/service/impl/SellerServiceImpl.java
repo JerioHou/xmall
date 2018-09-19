@@ -18,7 +18,7 @@ import com.github.pagehelper.PageHelper;
  * @author Administrator
  *
  */
-@Service(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+@Service
 public class SellerServiceImpl implements SellerService {
 
 	@Autowired

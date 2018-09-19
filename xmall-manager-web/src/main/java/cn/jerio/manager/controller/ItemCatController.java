@@ -25,7 +25,7 @@ public class ItemCatController {
 	private static final Logger logger = LoggerFactory.getLogger(ItemCatController.class);
 
 
-	@Reference(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+	@Reference
 	private ItemCatService itemCatService;
 	
 	/**

@@ -24,7 +24,7 @@ public class BrandController {
 
     private static final Logger logger = LoggerFactory.getLogger(BrandController.class);
 
-    @Reference(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+    @Reference
     private BrandService brandService;
 
     @RequestMapping("/findAll")

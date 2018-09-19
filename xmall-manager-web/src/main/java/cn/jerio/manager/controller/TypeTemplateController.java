@@ -26,7 +26,7 @@ public class TypeTemplateController {
 	private static final Logger logger = LoggerFactory.getLogger(TypeTemplateController.class);
 
 
-	@Reference(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+	@Reference
 	private TypeTemplateService typeTemplateService;
 	
 	/**

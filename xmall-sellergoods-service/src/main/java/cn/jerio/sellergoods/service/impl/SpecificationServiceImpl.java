@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Administrator
  *
  */
-@Service(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+@Service
 public class SpecificationServiceImpl implements SpecificationService {
 
 	@Autowired

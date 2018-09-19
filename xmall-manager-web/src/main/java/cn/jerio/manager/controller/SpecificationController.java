@@ -27,7 +27,7 @@ public class SpecificationController {
 	private static final Logger logger = LoggerFactory.getLogger(SpecificationController.class);
 
 
-	@Reference(version = Const.XMALL_SELLERGOODS_SERVICE_VERSION)
+	@Reference
 	private SpecificationService specificationService;
 	
 	/**

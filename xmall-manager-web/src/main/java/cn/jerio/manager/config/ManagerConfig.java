@@ -51,17 +51,17 @@ public class ManagerConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/fonts/**","/plugins/**", "/img/**","/login.html","/error.html").permitAll()
+        http.csrf().disable();
+
+        http.authorizeRequests().antMatchers("/*.html","/css/**", "/js/**", "/fonts/**","/plugins/**", "/img/**","/login","/error").permitAll()
                 .anyRequest().authenticated()
                 .antMatchers("/*").hasRole("ADMIN") // 需要相应的角色才能访问
         .and().formLogin()   //基于 Form 表单登录验证
-                .loginPage("/login.html")// 自定义登录界面
-                .defaultSuccessUrl("/admin/index.html",true)
+                .loginPage("/login")// 自定义登录界面
+                .defaultSuccessUrl("/admin/index",true)
                 .failureUrl("/error.html")
-        .and().logout().permitAll()
-        .and().headers().frameOptions().sameOrigin()
-        .and().csrf().disable()
-        ;
+        .and().logout()
+        .and().headers().frameOptions().sameOrigin();
     }
 
     /**

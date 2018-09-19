@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jerio on 2018/9/17
@@ -33,4 +34,6 @@ public interface TbBrandMapper {
     int updateByPrimaryKeySelective(TbBrand record);
 
     int updateByPrimaryKey(TbBrand record);
+
+    List<Map> selectOptionList();
 }

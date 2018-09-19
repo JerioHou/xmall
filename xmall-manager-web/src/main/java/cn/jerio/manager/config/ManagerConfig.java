@@ -3,11 +3,17 @@ package cn.jerio.manager.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +23,9 @@ import java.util.List;
  * Created by Jerio on 2018/09/19
  */
 @Configuration
-public class ManagerConfig {
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) // 启用方法安全设置
+public class ManagerConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters(){
@@ -34,5 +42,37 @@ public class ManagerConfig {
 
         HttpMessageConverter<?> converter = httpMessageConverter;
         return new HttpMessageConverters(converter);
+    }
+
+    /**
+     * 自定义拦截配置
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/css/**", "/js/**", "/fonts/**","/plugins/**", "/img/**","/login.html","/error.html").permitAll()
+                .anyRequest().authenticated()
+                .antMatchers("/*").hasRole("ADMIN") // 需要相应的角色才能访问
+        .and().formLogin()   //基于 Form 表单登录验证
+                .loginPage("/login.html")// 自定义登录界面
+                .defaultSuccessUrl("/admin/index.html",true)
+                .failureUrl("/error.html")
+        .and().logout().permitAll()
+        .and().headers().frameOptions().sameOrigin()
+        .and().csrf().disable()
+        ;
+    }
+
+    /**
+     * 认证信息管理
+     * @param auth
+     * @throws Exception
+     */
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+//        auth.authenticationProvider(authenticationProvider());
+        auth.inMemoryAuthentication().withUser("houjie").password("{noop}jerio").roles("ADMIN");
     }
 }

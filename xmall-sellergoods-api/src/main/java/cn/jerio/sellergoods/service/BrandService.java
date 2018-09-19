@@ -4,6 +4,7 @@ import cn.jerio.entity.PageResult;
 import cn.jerio.pojo.TbBrand;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Jerio on 2018/09/17
@@ -47,4 +48,6 @@ public interface BrandService {
      * @return
      */
     PageResult findPage(TbBrand brand, int pageNum,int pageSize);
+
+    List<Map> selectOptionList();
 }

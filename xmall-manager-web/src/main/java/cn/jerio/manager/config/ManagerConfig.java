@@ -53,12 +53,12 @@ public class ManagerConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/*.html","/css/**", "/js/**", "/fonts/**","/plugins/**", "/img/**","/login","/error").permitAll()
+        http.authorizeRequests().antMatchers("/*.html","/css/**", "/js/**", "/fonts/**","/plugins/**", "/img/**","/login","/error","/add").permitAll()
                 .anyRequest().authenticated()
-                .antMatchers("/*").hasRole("ADMIN") // 需要相应的角色才能访问
+                .antMatchers("/**").hasRole("ADMIN") // 需要相应的角色才能访问
         .and().formLogin()   //基于 Form 表单登录验证
                 .loginPage("/login")// 自定义登录界面
-                .defaultSuccessUrl("/admin/index",true)
+                .defaultSuccessUrl("/admin/index",true)//true 表示不管从何处登录，都返回到此页面。
                 .failureUrl("/error.html")
         .and().logout()
         .and().headers().frameOptions().sameOrigin();

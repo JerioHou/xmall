@@ -24,6 +24,7 @@
 		<module>xmall-sellergoods-service</module>
 		<module>xmall-manager-web</module>
 		<module>xmall-mapper</module>
+        <module>xmall-shop-web</module>
 	</modules>
 
 	<properties>

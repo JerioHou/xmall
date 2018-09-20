@@ -1,17 +1,16 @@
 package cn.jerio.manager.controller;
-import java.util.List;
-
-import cn.jerio.constant.Const;
 import cn.jerio.entity.PageResult;
 import cn.jerio.entity.Result;
 import cn.jerio.pojo.TbSeller;
 import cn.jerio.sellergoods.service.SellerService;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.alibaba.dubbo.config.annotation.Reference;
+
+import java.util.List;
 
 /**
  * controller
@@ -116,5 +115,20 @@ public class SellerController {
 	public PageResult search(@RequestBody TbSeller seller, int page, int rows  ){
 		return sellerService.findPage(seller, page, rows);		
 	}
-	
+
+	/**
+	 * 更改状态
+	 * @param sellerId 商家ID
+	 * @param status 状态
+	 */
+	@RequestMapping("/updateStatus")
+	public Result updateStatus(String sellerId, String status){
+		try {
+			sellerService.updateStatus(sellerId, status);
+			return Result.success("成功");
+		} catch (Exception e) {
+			logger.error("审核失败",e);
+			return Result.fail("失败");
+		}
+	}
 }

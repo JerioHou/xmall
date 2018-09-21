@@ -1,16 +1,15 @@
 package cn.jerio.sellergoods.service.impl;
-import java.util.List;
-
-import cn.jerio.constant.Const;
 import cn.jerio.entity.PageResult;
 import cn.jerio.mapper.TbItemCatMapper;
 import cn.jerio.pojo.TbItemCat;
 import cn.jerio.pojo.TbItemCatExample;
 import cn.jerio.sellergoods.service.ItemCatService;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 
 /**
@@ -97,5 +96,11 @@ public class ItemCatServiceImpl implements ItemCatService {
 		Page<TbItemCat> page= (Page<TbItemCat>)itemCatMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+	@Override
+	public List<TbItemCat> findByParentId(Long parentId) {
+		TbItemCatExample example = new TbItemCatExample();
+		example.createCriteria().andParentIdEqualTo(parentId);
+		return itemCatMapper.selectByExample(example);
+	}
 }

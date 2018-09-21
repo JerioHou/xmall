@@ -1,6 +1,8 @@
 package cn.jerio.sellergoods.service;
+
 import cn.jerio.entity.PageResult;
 import cn.jerio.pojo.TbGoods;
+import cn.jerio.pojogroup.Goods;
 
 import java.util.List;
 
@@ -28,7 +30,7 @@ public interface GoodsService {
 	/**
 	 * 增加
 	*/
-	public void add(TbGoods goods);
+	public void add(Goods goods);
 	
 	
 	/**

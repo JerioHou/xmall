@@ -1,9 +1,10 @@
 package cn.jerio.sellergoods.service;
+
 import cn.jerio.entity.PageResult;
 import cn.jerio.pojo.TbTypeTemplate;
 
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -60,7 +61,11 @@ public interface TypeTemplateService {
 	 * @return
 	 */
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum, int pageSize);
-	
 
-	
+
+	/**
+	 * 返回规格列表
+	 * @return
+	 */
+	public List<Map> findSpecList(Long id);
 }

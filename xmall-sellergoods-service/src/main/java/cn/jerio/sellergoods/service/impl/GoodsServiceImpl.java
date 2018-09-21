@@ -1,16 +1,19 @@
 package cn.jerio.sellergoods.service.impl;
-import java.util.List;
 
-import cn.jerio.constant.Const;
 import cn.jerio.entity.PageResult;
+import cn.jerio.mapper.TbGoodsDescMapper;
 import cn.jerio.mapper.TbGoodsMapper;
 import cn.jerio.pojo.TbGoods;
 import cn.jerio.pojo.TbGoodsExample;
+import cn.jerio.pojogroup.Goods;
 import cn.jerio.sellergoods.service.GoodsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -23,7 +26,9 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private TbGoodsMapper goodsMapper;
-	
+
+	@Autowired
+	private TbGoodsDescMapper goodsDescMapper;
 	/**
 	 * 查询全部
 	 */
@@ -46,8 +51,12 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 增加
 	 */
 	@Override
-	public void add(TbGoods goods) {
-		goodsMapper.insert(goods);		
+	@Transactional
+	public void add(Goods goods) {
+		goods.getGoods().setAuditStatus("0");//设置未申请状态
+		goodsMapper.insert(goods.getGoods());
+		goods.getGoodsDesc().setGoodsId(goods.getGoods().getId());//设置ID
+		goodsDescMapper.insert(goods.getGoodsDesc());//插入商品扩展数据
 	}
 
 	

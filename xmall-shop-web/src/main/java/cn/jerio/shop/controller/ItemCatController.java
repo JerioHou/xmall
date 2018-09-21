@@ -1,4 +1,4 @@
-package cn.jerio.manager.controller;
+package cn.jerio.shop.controller;
 import cn.jerio.entity.PageResult;
 import cn.jerio.entity.Result;
 import cn.jerio.pojo.TbItemCat;

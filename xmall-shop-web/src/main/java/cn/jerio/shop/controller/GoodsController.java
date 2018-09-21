@@ -3,10 +3,12 @@ package cn.jerio.shop.controller;
 import cn.jerio.entity.PageResult;
 import cn.jerio.entity.Result;
 import cn.jerio.pojo.TbGoods;
+import cn.jerio.pojogroup.Goods;
 import cn.jerio.sellergoods.service.GoodsService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,7 +52,11 @@ public class GoodsController {
      * @return
      */
     @RequestMapping("/add")
-    public Result add(@RequestBody TbGoods goods){
+    public Result add(@RequestBody Goods goods){
+
+        //获取登录名
+        String sellerId = SecurityContextHolder.getContext().getAuthentication().getName();
+        goods.getGoods().setSellerId(sellerId);//设置商家ID
         try {
             goodsService.add(goods);
             return Result.success("增加成功");

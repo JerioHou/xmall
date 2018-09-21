@@ -13,10 +13,15 @@
   <link rel="stylesheet" href="../css/style.css">
   <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
   <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../plugins/angularjs/angular.min.js">  </script>
+  <script type="text/javascript" src="../js/base.js">  </script>
+  <script type="text/javascript" src="../js/service/itemCatService.js">  </script>
+  <script type="text/javascript" src="../js/controller/baseController.js">  </script>
+  <script type="text/javascript" src="../js/controller/itemCatController.js"></script>
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini" ng-app="xmall" ng-controller="itemCatController" ng-init="findByParentId(0)">
 <!-- .box-body -->
 
 <div class="box-header with-border">
@@ -26,17 +31,10 @@
 
 <div class="box-body">
   <ol class="breadcrumb">
-    <li>
-      <a href="#">顶级分类列表</a>
-    </li>
-    <li>
-      <a href="#">珠宝</a>
-    </li>
-    <li>
-      <a href="#">银饰</a>
-    </li>
+    <li><a href="#" ng-click="grade=1;selectList({id:0})">顶级分类列表</a></li>
+    <li><a href="#" ng-click="grade=2;selectList(entity_1)">{{entity_1.name}}</a></li>
+    <li><a href="#" ng-click="grade=3;selectList(entity_2)">{{entity_2.name}}</a></li>
   </ol>
-
   <!-- 数据表格 -->
   <div class="table-box">
 
@@ -70,40 +68,16 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>982</td>
-        <td>吊坠/项链</td>
-        <td>
-          11
-        </td>
+      <tr ng-repeat="entity in list">
+        <td><input type="checkbox" ></td>
+        <td>{{entity.id}}</td>
+        <td>{{entity.name}}</td>
+        <td>{{entity.typeId}}</td>
         <td class="text-center">
-          <button type="button" class="btn bg-olive btn-xs">查询下级</button>
-          <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>
-        </td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>983</td>
-        <td>手镯/手链/脚链</td>
-        <td>
-          11
-        </td>
-        <td class="text-center">
-          <button type="button" class="btn bg-olive btn-xs">查询下级</button>
-          <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>
-        </td>
-      </tr>
-      <tr>
-        <td><input type="checkbox"></td>
-        <td>984</td>
-        <td>戒指/耳饰</td>
-        <td>
-          11
-        </td>
-        <td class="text-center">
-          <button type="button" class="btn bg-olive btn-xs">查询下级</button>
-          <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改</button>
+          <span ng-if="grade != 3">
+            <button type="button" ng-click="setGrade(grade+1);selectList(entity);" class="btn bg-olive btn-xs" >查询下级</button>
+          </span>
+          <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" >修改</button>
         </td>
       </tr>
       </tbody>

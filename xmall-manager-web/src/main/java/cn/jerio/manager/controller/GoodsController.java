@@ -5,6 +5,7 @@ import cn.jerio.constant.Const;
 import cn.jerio.entity.PageResult;
 import cn.jerio.entity.Result;
 import cn.jerio.pojo.TbGoods;
+import cn.jerio.pojogroup.Goods;
 import cn.jerio.sellergoods.service.GoodsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/add")
-	public Result add(@RequestBody TbGoods goods){
+	public Result add(@RequestBody Goods goods){
 		try {
 			goodsService.add(goods);
 			return Result.success("增加成功");

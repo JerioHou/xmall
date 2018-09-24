@@ -19,6 +19,11 @@
 	</parent>
 
 	<dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>cn.bestwu</groupId>
 			<artifactId>fastdfs-client-java</artifactId>

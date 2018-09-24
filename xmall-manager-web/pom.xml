@@ -65,6 +65,12 @@
             <version>1.2.47</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.jerio</groupId>
+            <artifactId>xmall-content-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>

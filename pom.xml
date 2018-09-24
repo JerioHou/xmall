@@ -25,7 +25,10 @@
 		<module>xmall-manager-web</module>
 		<module>xmall-mapper</module>
         <module>xmall-shop-web</module>
-	</modules>
+        <module>xmall-content-api</module>
+        <module>xmall-content-service</module>
+        <module>xmall-portal-web</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

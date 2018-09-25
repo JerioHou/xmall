@@ -25,6 +25,10 @@
 			<version>1.16.18</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-solr</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

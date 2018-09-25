@@ -2,6 +2,7 @@ package cn.jerio.search.controller;
 
 import cn.jerio.search.service.ItemSearchService;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class ItemSearchController {
         @Reference
         private ItemSearchService itemSearchService;
 
-        @RequestMapping("/search")
+        @PostMapping("/search")
         public Map<String, Object> search(@RequestBody Map searchMap ){
             return  itemSearchService.search(searchMap);
         }

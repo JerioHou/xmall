@@ -17,8 +17,10 @@ public class TbItem implements Serializable{
 
     private String sellPoint;
 
-    @Field("item_price")
     private BigDecimal price;
+
+    @Field("item_price")
+    private String price2;
 
     private Integer stockCount;
 
@@ -35,7 +37,6 @@ public class TbItem implements Serializable{
 
     private Date createTime;
 
-    @Field("item_updatetime")
     private Date updateTime;
 
     private String itemSn;
@@ -109,6 +110,10 @@ public class TbItem implements Serializable{
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+        this.price2 = String.valueOf(price);
+    }
+    public String getPrice2(){
+        return price2;
     }
 
     public Integer getStockCount() {

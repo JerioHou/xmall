@@ -1,4 +1,4 @@
-package cn.jerio.search.impl;
+package cn.jerio.search.service.impl;
 
 import cn.jerio.pojo.TbItem;
 import cn.jerio.search.service.ItemSearchService;

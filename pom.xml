@@ -32,6 +32,7 @@
 		<module>xmall-search-api</module>
 		<module>xmall-search-service</module>
 		<module>xmall-search-web</module>
+        <module>xmall-page-api</module>
     </modules>
 
 	<properties>

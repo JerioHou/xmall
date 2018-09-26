@@ -1,4 +1,5 @@
 package cn.jerio.sellergoods.service.impl;
+
 import cn.jerio.entity.PageResult;
 import cn.jerio.mapper.TbItemCatMapper;
 import cn.jerio.pojo.TbItemCat;
@@ -8,6 +9,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
@@ -22,7 +24,9 @@ public class ItemCatServiceImpl implements ItemCatService {
 
 	@Autowired
 	private TbItemCatMapper itemCatMapper;
-	
+
+	@Autowired
+	private RedisTemplate redisTemplate;
 	/**
 	 * 查询全部
 	 */
@@ -101,6 +105,13 @@ public class ItemCatServiceImpl implements ItemCatService {
 	public List<TbItemCat> findByParentId(Long parentId) {
 		TbItemCatExample example = new TbItemCatExample();
 		example.createCriteria().andParentIdEqualTo(parentId);
-		return itemCatMapper.selectByExample(example);
+
+		List<TbItemCat> tbItemCatList =  itemCatMapper.selectByExample(example);
+        //商品分类写入缓存
+        List<TbItemCat> list = findAll();
+        for(TbItemCat itemCat:list){
+            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(), itemCat.getTypeId());
+        }
+        return tbItemCatList;
 	}
 }

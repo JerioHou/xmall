@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	@Autowired
 	private TbSpecificationOptionMapper specificationOptionMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 	/**
 	 * 查询全部
 	 */
@@ -46,9 +50,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	@Override
 	public PageResult findPage(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);		
-		Page<TbTypeTemplate> page=   (Page<TbTypeTemplate>) typeTemplateMapper.selectByExample(null);
-		return new PageResult(page.getTotal(), page.getResult());
-	}
+		Page<TbTypeTemplate> page=  (Page<TbTypeTemplate>) typeTemplateMapper.selectByExample(null);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
 
 	/**
 	 * 增加
@@ -88,7 +92,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	}
 	
 	
-		@Override
+    @Override
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		
@@ -111,8 +115,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	
 		}
 		
-		Page<TbTypeTemplate> page= (Page<TbTypeTemplate>)typeTemplateMapper.selectByExample(example);		
-		return new PageResult(page.getTotal(), page.getResult());
+		Page<TbTypeTemplate> page= (Page<TbTypeTemplate>)typeTemplateMapper.selectByExample(example);
+        saveToRedis();//存入数据到redis缓存
+        return new PageResult(page.getTotal(), page.getResult());
 	}
 
 	@Override
@@ -132,5 +137,21 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 		return list;
 	}
 
+    /**
+     * 将数据存入缓存
+     */
+    private void saveToRedis(){
+        //获取模板数据
+        List<TbTypeTemplate> typeTemplateList = findAll();
+        //循环模板
+        for(TbTypeTemplate typeTemplate :typeTemplateList){
+            //存储品牌列表
+            List<Map> brandList = JSON.parseArray(typeTemplate.getBrandIds(), Map.class);
+            redisTemplate.boundHashOps("brandList").put(typeTemplate.getId(), brandList);
+            //存储规格列表
+            List<Map> specList = findSpecList(typeTemplate.getId());//根据模板ID查询规格列表
+            redisTemplate.boundHashOps("specList").put(typeTemplate.getId(), specList);
+        }
+    }
 
 }

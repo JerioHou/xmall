@@ -51,6 +51,11 @@
 			<artifactId>xmall-sellergoods-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+        <dependency>
+            <groupId>cn.jerio</groupId>
+            <artifactId>xmall-search-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 		<!--pagehelper-->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>

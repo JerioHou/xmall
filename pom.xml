@@ -35,6 +35,8 @@
         <module>xmall-page-api</module>
         <module>xmall-page-service</module>
         <module>xmall-page-web</module>
+        <module>xmall-user-api</module>
+        <module>xmall-user-service</module>
     </modules>
 
 	<properties>

@@ -2,6 +2,7 @@ package cn.jerio.manager.controller;
 
 import cn.jerio.entity.PageResult;
 import cn.jerio.entity.Result;
+import cn.jerio.page.service.ItemPageService;
 import cn.jerio.pojo.TbGoods;
 import cn.jerio.pojo.TbItem;
 import cn.jerio.pojogroup.Goods;
@@ -33,6 +34,9 @@ public class GoodsController {
 
     @Reference
     private ItemSearchService itemSearchService;
+
+    @Reference
+    private ItemPageService itemPageService;
 	
 	/**
 	 * 返回全部列表
@@ -141,6 +145,11 @@ public class GoodsController {
                 }else{
                     System.out.println("没有明细数据");
                 }
+                //生成静态页面
+                for (Long goodId : ids){
+                    itemPageService.genItemHtml(goodId);
+                }
+
             }
             return Result.success("成功");
         } catch (Exception e) {

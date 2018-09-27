@@ -33,6 +33,8 @@
 		<module>xmall-search-service</module>
 		<module>xmall-search-web</module>
         <module>xmall-page-api</module>
+        <module>xmall-page-service</module>
+        <module>xmall-page-web</module>
     </modules>
 
 	<properties>

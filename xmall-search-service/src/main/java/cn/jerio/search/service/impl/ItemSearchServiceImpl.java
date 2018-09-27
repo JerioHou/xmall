@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
  * Created by Jerio on 2018/09/25
  */
 @Service
+@org.springframework.stereotype.Service
 public class ItemSearchServiceImpl implements ItemSearchService {
     
     private static final String COLLECTION = "collection1";
-    
 
     @Autowired
     private SolrTemplate solrTemplate;

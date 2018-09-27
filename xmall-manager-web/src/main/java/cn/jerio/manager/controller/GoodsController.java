@@ -2,20 +2,19 @@ package cn.jerio.manager.controller;
 
 import cn.jerio.entity.PageResult;
 import cn.jerio.entity.Result;
-import cn.jerio.page.service.ItemPageService;
+import cn.jerio.manager.rabbitMQ.SolrMQSender;
 import cn.jerio.pojo.TbGoods;
 import cn.jerio.pojo.TbItem;
 import cn.jerio.pojogroup.Goods;
-import cn.jerio.search.service.ItemSearchService;
 import cn.jerio.sellergoods.service.GoodsService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,11 +31,12 @@ public class GoodsController {
 	@Reference
 	private GoodsService goodsService;
 
-    @Reference
-    private ItemSearchService itemSearchService;
 
-    @Reference
-    private ItemPageService itemPageService;
+//    @Reference
+//    private ItemPageService itemPageService;
+
+    @Autowired
+    private SolrMQSender solrMQSender;
 	
 	/**
 	 * 返回全部列表
@@ -108,7 +108,8 @@ public class GoodsController {
 	public Result delete(Long [] ids){
 		try {
 			goodsService.delete(ids);
-            itemSearchService.deleteByGoodsIds(Arrays.asList(ids));
+            //itemSearchService.deleteByGoodsIds(Arrays.asList(ids));
+            solrMQSender.sendSolrDeleteMessage(ids);
 			return Result.success("删除成功");
 		} catch (Exception e) {
 			logger.error("失败",e);
@@ -141,19 +142,19 @@ public class GoodsController {
                 List<TbItem> itemList = goodsService.findItemListByGoodsIdandStatus(ids, status);
                 //调用搜索接口实现数据批量导入
                 if(itemList.size()>0){
-                    itemSearchService.importList(itemList);
+                    solrMQSender.sendSolrUpdateMessage(itemList);
                 }else{
                     System.out.println("没有明细数据");
                 }
                 //生成静态页面
-                for (Long goodId : ids){
-                    itemPageService.genItemHtml(goodId);
-                }
+//                for (Long goodId : ids){
+//                    itemPageService.genItemHtml(goodId);
+//                }
 
             }
             return Result.success("成功");
         } catch (Exception e) {
-            logger.error("修改成功",e);
+            logger.error("修改失败",e);
             return Result.fail("失败");
         }
     }

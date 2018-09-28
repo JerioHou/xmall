@@ -23,7 +23,7 @@ public class MQConfig {
     }
     @Bean
     public Queue solrDeleteQueue(){
-        return new Queue(Const.TOPIC_QUEUE_SOLR_UPDATE) ;
+        return new Queue(Const.TOPIC_QUEUE_SOLR_DELETE) ;
     }
 
     @Bean

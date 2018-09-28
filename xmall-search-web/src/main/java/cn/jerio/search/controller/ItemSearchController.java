@@ -17,10 +17,10 @@ import java.util.Map;
 public class ItemSearchController {
 
         @Reference
-        private ItemSearchService itemSearchService;
+    private ItemSearchService itemSearchService;
 
-        @PostMapping("/search")
-        public Map<String, Object> search(@RequestBody Map searchMap ){
-            return  itemSearchService.search(searchMap);
-        }
+    @PostMapping("/search")
+    public Map<String, Object> search(@RequestBody Map searchMap ){
+        return  itemSearchService.search(searchMap);
     }
+}

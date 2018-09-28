@@ -8,13 +8,14 @@ import cn.jerio.user.service.UserService;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Jerio on 2018/09/27
@@ -23,7 +24,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     
     @Autowired
-    private RedisTemplate redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     private TbUserMapper userMapper;
@@ -51,8 +52,10 @@ public class UserServiceImpl implements UserService {
         user.setCreated(new Date());//用户注册时间
         user.setUpdated(new Date());//修改时间
         user.setSourceType("1");//注册来源
-        user.setPassword( DigestUtils.md5Hex(user.getPassword()));//密码加密
-
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));//密码加密
+        System.out.println("密码长度："+user.getPassword().length());
+        System.out.println("密码：" +user.getPassword());
         userMapper.insert(user);
     }
 
@@ -147,17 +150,30 @@ public class UserServiceImpl implements UserService {
         System.out.println("验证码："+smscode);
 
         //2.将验证码放入redis
-        redisTemplate.boundHashOps("smscode").put(phone, smscode);
+        String key = "smscode_"+phone;
+        redisTemplate.boundValueOps(key).append(smscode);
+        redisTemplate.expire("smscode_"+phone,60, TimeUnit.SECONDS);
         //发送短信验证码
         // TODO: 2018/09/27  
     }
 
     @Override
     public boolean checkSmsCode(String phone, String code) {
-        String systemcode= (String) redisTemplate.boundHashOps("smscode").get(phone);
+        String key = "smscode_"+phone;
+        String systemcode= (String) redisTemplate.boundValueOps(key).get();
         if(StringUtils.isBlank(systemcode)){
             return false;
         }
         return systemcode.equals(code);
+    }
+
+
+    @Override
+    public TbUser findByUsername(String username) {
+        TbUserExample example=new TbUserExample();
+        TbUserExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameEqualTo(username);
+        List<TbUser> tbUsers = userMapper.selectByExample(example);
+        return tbUsers==null || tbUsers.isEmpty()?null:tbUsers.get(0);
     }
 }

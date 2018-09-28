@@ -23,4 +23,8 @@ public class XamllSearchUtilApplicationTests {
 		solrUtil.importItemData(solrTemplate);
 	}
 
+	@Test
+    public void delete(){
+        solrUtil.deleteItemData(solrTemplate);
+    }
 }

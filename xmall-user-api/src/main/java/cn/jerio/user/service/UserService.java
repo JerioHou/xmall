@@ -72,4 +72,9 @@ public interface UserService {
      * @return
      */
     public boolean checkSmsCode(String phone,String code);
+
+    /**
+     * 根据用户名获取用户
+     */
+    TbUser findByUsername(String username);
 }

@@ -37,6 +37,9 @@
         <module>xmall-page-web</module>
         <module>xmall-user-api</module>
         <module>xmall-user-service</module>
+        <module>xmall-cart-api</module>
+        <module>xmall-cart-service</module>
+        <module>xmall-cart-web</module>
     </modules>
 
 	<properties>

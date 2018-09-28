@@ -176,4 +176,16 @@ public class UserServiceImpl implements UserService {
         List<TbUser> tbUsers = userMapper.selectByExample(example);
         return tbUsers==null || tbUsers.isEmpty()?null:tbUsers.get(0);
     }
+
+    @Override
+    public void cacheUserinfo(Long id, String token) {
+        redisTemplate.boundHashOps("userinfo").put(token,String.valueOf(id));
+    }
+
+    @Override
+    public Long getCacheUserinfo(String token) {
+        if(redisTemplate.boundHashOps("userinfo").get(token) != null)
+            return Long.valueOf(redisTemplate.boundHashOps("userinfo").get(token).toString());
+        return null;
+    }
 }

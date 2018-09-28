@@ -2,10 +2,13 @@ package cn.jerio.portal.controller;
 
 import cn.jerio.content.service.ContentService;
 import cn.jerio.pojo.TbContent;
+import cn.jerio.util.CookieUtil;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -26,5 +29,10 @@ public class ContentController {
     @RequestMapping("/findByCategoryId")
     public List<TbContent> findByCategoryId(Long categoryId) {
         return contentService.findByCategoryId(categoryId);
+    }
+
+    @RequestMapping("/token")
+    public String test(HttpServletRequest request, HttpServletResponse response){
+        return CookieUtil.getCookieValue(request,"xmall-token");
     }
 }

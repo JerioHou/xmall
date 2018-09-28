@@ -77,4 +77,8 @@ public interface UserService {
      * 根据用户名获取用户
      */
     TbUser findByUsername(String username);
+
+    void cacheUserinfo(Long id, String token);
+
+    Long getCacheUserinfo(String token);
 }

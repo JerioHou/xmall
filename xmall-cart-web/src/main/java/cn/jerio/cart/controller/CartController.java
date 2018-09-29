@@ -1,6 +1,7 @@
 package cn.jerio.cart.controller;
 
 import cn.jerio.cart.service.CartService;
+import cn.jerio.cart.util.UserUtil;
 import cn.jerio.entity.Result;
 import cn.jerio.pojo.TbUser;
 import cn.jerio.pojogroup.Cart;
@@ -8,7 +9,6 @@ import cn.jerio.user.service.UserService;
 import cn.jerio.util.CookieUtil;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class CartController {
      */
     @RequestMapping("/findCartList")
     public List<Cart> findCartList(){
-        TbUser user = getUserByToken();
+        TbUser user = UserUtil.getUserByToken(request,userService);
 
         String cartListString = CookieUtil.getCookieValue(request, "cartList","UTF-8");
         if(cartListString==null || cartListString.equals("")){
@@ -84,7 +84,7 @@ public class CartController {
      */
     @RequestMapping("/addGoodsToCartList")
     public Result addGoodsToCartList(Long itemId, Integer num){
-        TbUser user = getUserByToken();
+        TbUser user = UserUtil.getUserByToken(request,userService);
         try {
             List<Cart> cartList =findCartList();//获取购物车列表
             cartList = cartService.addGoodsToCartList(cartList, itemId, num);
@@ -102,13 +102,13 @@ public class CartController {
     }
 
 
-    private TbUser getUserByToken(){
-        String token = CookieUtil.getCookieValue(request,"xmall-token");
-        if (StringUtils.isBlank(token))
-            return null;
-        Long userId = userService.getCacheUserinfo(token);
-        if (userId == null)
-            return null;
-        return userService.findOne(userId);
-    }
+//    private TbUser getUserByToken(){
+//        String token = CookieUtil.getCookieValue(request,"xmall-token");
+//        if (StringUtils.isBlank(token))
+//            return null;
+//        Long userId = userService.getCacheUserinfo(token);
+//        if (userId == null)
+//            return null;
+//        return userService.findOne(userId);
+//    }
 }

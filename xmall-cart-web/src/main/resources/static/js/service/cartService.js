@@ -2,12 +2,12 @@
 app.service('cartService',function($http){
 	//购物车列表
 	this.findCartList=function(){
-		return $http.get('cart/findCartList');
+		return $http.get('cart/findCartList.do');
 	}
 	
 	//添加商品到购物车
 	this.addGoodsToCartList=function(itemId,num){
-		return $http.get('cart/addGoodsToCartList?itemId='+itemId+'&num='+num);
+		return $http.get('cart/addGoodsToCartList.do?itemId='+itemId+'&num='+num);
 	}
 	
 	//求合计数
@@ -25,5 +25,16 @@ app.service('cartService',function($http){
 		return totalValue;
 		
 	}
+	
+	//获取当前登录账号的收货地址
+	this.findAddressList=function(){
+		return $http.get('address/findListByLoginUser.do');
+	}
+	
+	//提交订单
+	this.submitOrder=function(order){
+		return $http.post('order/add.do',order);		
+	}
+	
 	
 });

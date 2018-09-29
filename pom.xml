@@ -40,6 +40,7 @@
         <module>xmall-cart-api</module>
         <module>xmall-cart-service</module>
         <module>xmall-cart-web</module>
+        <module>xmall-order-api</module>
     </modules>
 
 	<properties>
